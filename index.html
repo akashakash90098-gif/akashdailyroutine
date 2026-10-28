@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lavender">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akash Daily Routine — Stay Consistent. Learn Every Day. Build Your Future.</title>
+  <meta name="description" content="Personal Productivity & Daily Routine Dashboard for Akash V — B.Tech 2nd Year CSE-AIML student, Web Developer Intern, NxtWave learner, and aspiring AI/ML Engineer.">
+
+  <!-- Modern Typography: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Chart.js CDN for Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Canvas Confetti CDN for Task Celebrations -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Glowing Accents -->
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <div class="app-container">
+
+    <!-- ==========================================================================
+         Collapsible Sidebar Navigation
+         ========================================================================== -->
+    <aside class="app-sidebar" id="appSidebar">
+      <!-- Sidebar Header -->
+      <div class="sidebar-header">
+        <div class="brand-wrapper">
+          <div class="brand-icon">
+            <i data-lucide="sparkles"></i>
+          </div>
+          <div class="brand-details">
+            <span class="brand-title">Akash Routine</span>
+            <span class="brand-badge">CSE-AIML • Web Dev Intern</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.35rem;">
+          <button class="sidebar-collapse-btn desktop-only" id="sidebarCollapseBtn" title="Toggle Sidebar">
+            <i data-lucide="chevron-left" id="collapseIcon"></i>
+          </button>
+          <button class="sidebar-collapse-btn mobile-only" id="sidebarCloseBtn" title="Close Menu">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+      </div>
+
+
+      <!-- Navigation Links -->
+      <nav class="sidebar-nav" id="sidebarNav">
+        <span class="nav-section-title">Overview</span>
+        <a href="#dashboard" class="nav-item active" data-view="dashboard">
+          <i data-lucide="layout-dashboard"></i>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a href="#routine" class="nav-item" data-view="routine">
+          <i data-lucide="calendar-check"></i>
+          <span class="nav-text">Daily Routine</span>
+        </a>
+        <a href="#weekly" class="nav-item" data-view="weekly">
+          <i data-lucide="calendar-range"></i>
+          <span class="nav-text">Weekly Planner</span>
+        </a>
+
+        <span class="nav-section-title">Productivity</span>
+        <a href="#tasks" class="nav-item" data-view="tasks">
+          <i data-lucide="check-square"></i>
+          <span class="nav-text">Task Manager</span>
+          <span class="nav-badge" id="pendingTasksBadge">0</span>
+        </a>
+        <a href="#study" class="nav-item" data-view="study">
+          <i data-lucide="graduation-cap"></i>
+          <span class="nav-text">Study Tracker</span>
+        </a>
+        <a href="#projects" class="nav-item" data-view="projects">
+          <i data-lucide="folder-code"></i>
+          <span class="nav-text">Web Projects</span>
+        </a>
+        <a href="#roadmap" class="nav-item" data-view="roadmap">
+          <i data-lucide="milestone"></i>
+          <span class="nav-text">AI/ML Roadmap</span>
+        </a>
+
+        <span class="nav-section-title">Insights & Tools</span>
+        <a href="#calendar" class="nav-item" data-view="calendar">
+          <i data-lucide="calendar"></i>
+          <span class="nav-text">Calendar</span>
+        </a>
+        <a href="#analytics" class="nav-item" data-view="analytics">
+          <i data-lucide="bar-chart-3"></i>
+          <span class="nav-text">Analytics</span>
+        </a>
+        <a href="#settings" class="nav-item" data-view="settings">
+          <i data-lucide="settings"></i>
+          <span class="nav-text">Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-profile-card">
+          <div class="user-avatar" id="sidebarAvatar">AV</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebarUserName">Akash V</span>
+            <span class="user-role" id="sidebarUserRole">B.Tech CSE-AIML • Intern</span>
+          </div>
+        </div>
+    </aside>
+
+    <!-- Mobile Navigation Drawer Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- ==========================================================================
+         Main Application Layout
+         ========================================================================== -->
+    <main class="main-content">
+
+      <!-- Sticky Top Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <span class="breadcrumb-page" id="activeBreadcrumbTitle">Dashboard</span>
+          </div>
+        </div>
+
+        <div class="header-clock-widget">
+          <span class="clock-live-indicator"></span>
+          <span class="clock-time" id="liveClockTime">--:--:--</span>
+          <span class="clock-date" id="liveClockDate">Loading...</span>
+          <span class="clock-zone">IST</span>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-primary btn-sm" id="quickAddTaskBtn">
+            <i data-lucide="plus"></i>
+            <span>New Task</span>
+          </button>
+
+          <button class="btn-icon" id="notificationsBtn" title="Reminders & Notifications">
+            <i data-lucide="bell"></i>
+            <span class="badge-dot" id="reminderDot" style="display: none;"></span>
+          </button>
+
+          <button class="btn-icon" id="themeToggleBtn" title="Toggle Light / Dark Mode">
+            <i data-lucide="sun" id="themeIcon"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Views Container -->
+      <div class="content-body">
+
+        <!-- ==========================================================================
+             1. DASHBOARD VIEW
+             ========================================================================== -->
+        <section class="view-section active" id="view-dashboard">
+          <!-- Hero Welcome Banner with Serene Mountain Silhouette Art -->
+          <div class="welcome-hero">
+            <!-- Mountain Line Art Backdrop from Reference Image -->
+            <svg class="hero-mountain-bg" viewBox="0 0 500 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M70 280L210 110L270 170L380 50L520 280H70Z" fill="url(#mountainGrad1)" opacity="0.45"/>
+              <path d="M0 280L130 150L200 210L320 90L460 280H0Z" fill="url(#mountainGrad2)" opacity="0.6"/>
+              <path d="M220 120L250 80L280 120L380 50L350 120" stroke="#C4B5FD" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M120 160L160 110L190 150L310 90L290 140" stroke="#DDD6FE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="410" cy="70" r="32" fill="url(#sunGrad)" opacity="0.75"/>
+              <defs>
+                <linearGradient id="mountainGrad1" x1="295" y1="50" x2="295" y2="280" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#DDD6FE" stop-opacity="0.8"/>
+                  <stop offset="1" stop-color="#EDE9FE" stop-opacity="0.1"/>
+                </linearGradient>
+                <linearGradient id="mountainGrad2" x1="230" y1="90" x2="230" y2="280" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#C4B5FD" stop-opacity="0.7"/>
+                  <stop offset="1" stop-color="#F5F3FF" stop-opacity="0.05"/>
+                </linearGradient>
+                <linearGradient id="sunGrad" x1="410" y1="38" x2="410" y2="102" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#FDE68A"/>
+                  <stop offset="1" stop-color="#F59E0B" stop-opacity="0.2"/>
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <div class="welcome-content">
+              <div class="welcome-greeting-row">
+                <h2 class="welcome-greeting" id="welcomeGreeting">Hello, Akash! ☀️</h2>
+              </div>
+
+              <!-- Level & Points badge pill (matching reference image) -->
+              <div class="welcome-level-pill">
+                <i data-lucide="sparkles" style="width: 15px; height: 15px; color: var(--primary);"></i>
+                <span>Level 2 • 2550 pts • CSE (AI & ML) • Web Dev Intern</span>
+              </div>
+
+              <h1 class="welcome-title">Plan Your Day. Build Your Future.</h1>
+              <p class="welcome-desc">Consistency is your superpower. Balance college lectures, web developer internship, NxtWave coursework, and AI/ML project builds.</p>
+
+              <!-- Filter Pills (All, Yoga, Meditation style in reference image) -->
+              <div class="theme-filter-pills">
+                <button class="pill-chip active" onclick="window.location.hash='#routine'">
+                  <i data-lucide="sparkles" style="width: 15px; height: 15px;"></i>
+                  <span>All Activities</span>
+                </button>
+                <button class="pill-chip" onclick="window.location.hash='#study'">
+                  <i data-lucide="book-open" style="width: 15px; height: 15px;"></i>
+                  <span>Python & AI/ML</span>
+                </button>
+                <button class="pill-chip" onclick="window.location.hash='#projects'">
+                  <i data-lucide="laptop" style="width: 15px; height: 15px;"></i>
+                  <span>Web Projects</span>
+                </button>
+                <button class="pill-chip" onclick="window.location.hash='#weekly'">
+                  <i data-lucide="coffee" style="width: 15px; height: 15px;"></i>
+                  <span>Weekend Mode</span>
+                </button>
+                <button class="pill-chip" onclick="window.location.hash='#tasks'">
+                  <i data-lucide="check-circle" style="width: 15px; height: 15px;"></i>
+                  <span>Task Manager</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Summary Cards -->
+          <div class="summary-grid">
+            <div class="stat-card">
+              <div class="stat-icon-wrap purple">
+                <i data-lucide="list-todo"></i>
+              </div>
+              <div class="stat-details">
+                <span class="stat-label">Total Tasks</span>
+                <span class="stat-value" id="statTotalTasks">0</span>
+                <span class="stat-subtext">All active & scheduled</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrap green">
+                <i data-lucide="check-circle-2"></i>
+              </div>
+              <div class="stat-details">
+                <span class="stat-label">Completed Tasks</span>
+                <span class="stat-value" id="statCompletedTasks">0</span>
+                <span class="stat-subtext">Achieved so far</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrap amber">
+                <i data-lucide="clock"></i>
+              </div>
+              <div class="stat-details">
+                <span class="stat-label">Pending Tasks</span>
+                <span class="stat-value" id="statPendingTasks">0</span>
+                <span class="stat-subtext">Need your attention</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrap cyan">
+                <i data-lucide="activity"></i>
+              </div>
+              <div class="stat-details">
+                <span class="stat-label">Daily Completion Rate</span>
+                <span class="stat-value" id="statCompletionRate">0%</span>
+                <span class="stat-subtext">Progress toward daily goals</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weekend Holiday Banner (Shown dynamically on Saturday & Sunday) -->
+          <div class="holiday-banner" id="weekendHolidayBanner" style="display: none;">
+            <div class="holiday-icon-box">
+              <i data-lucide="coffee"></i>
+            </div>
+            <div class="holiday-content">
+              <h3>Weekend Holiday Mode Activated</h3>
+              <p>Relax, recharge, and explore personal hobbies, side projects, or revision. College schedule is paused today!</p>
+            </div>
+            <button class="btn-secondary btn-sm" onclick="window.location.hash='#weekly'" style="margin-left: auto;">
+              View Weekend Schedule
+            </button>
+          </div>
+
+          <!-- Dashboard Main 2-Column Grid -->
+          <div class="dashboard-main-grid">
+            <!-- Current Activity Live Card -->
+            <div class="card current-activity-card">
+              <div class="card-header">
+                <span class="card-title">
+                  <i data-lucide="zap" style="color: var(--secondary);"></i>
+                  Live Activity Tracker
+                </span>
+                <span class="current-activity-badge" id="currentStatusBadge">
+                  <span class="clock-live-indicator"></span>
+                  Active Now
+                </span>
+              </div>
+
+              <div class="activity-live-box">
+                <div class="activity-header-line">
+                  <h3 class="activity-name" id="currentActivityName">Checking schedule...</h3>
+                  <span class="activity-category-pill" id="currentCategoryPill">Routine</span>
+                </div>
+                <div class="activity-time-range" id="currentTimeRange">
+                  <i data-lucide="clock"></i>
+                  <span id="currentSlotTimes">--:-- to --:--</span>
+                  <span style="margin: 0 4px;">•</span>
+                  <span id="currentRemainingText">Calculating remaining time...</span>
+                </div>
+
+                <div class="progress-bar-container">
+                  <div class="progress-bar-fill" id="activityProgressBar" style="width: 0%;"></div>
+                </div>
+                <div class="progress-meta">
+                  <span>Elapsed: <strong id="activityElapsedPct">0%</strong></span>
+                  <span id="currentRemainingTime">-- mins left</span>
+                </div>
+              </div>
+
+              <!-- Next Activity Preview -->
+              <div class="next-activity-preview">
+                <div>
+                  <span class="next-label">Up Next</span>
+                  <div class="next-title" id="nextActivityTitle">No upcoming activity scheduled</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Tasks Today Card -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">
+                  <i data-lucide="check-circle" style="color: var(--primary);"></i>
+                  Today's Priority Tasks
+                </span>
+                <button class="btn-secondary btn-sm" onclick="window.location.hash='#tasks'">
+                  View All
+                </button>
+              </div>
+
+              <div id="dashboardQuickTasksList" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Routine Quick View -->
+          <div class="card">
+            <div class="card-header" style="flex-wrap: wrap; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <span class="card-title">
+                  <i data-lucide="list-ordered" style="color: var(--success);"></i>
+                  Today's Schedule Snapshot
+                </span>
+                <span id="dashboardRoutineProgressBadge" class="tag-badge" style="background: var(--success-light); color: var(--success); font-weight: 700; font-size: 0.78rem;">
+                  0 / 9 Completed (0%)
+                </span>
+              </div>
+              <button class="btn-primary btn-sm" onclick="window.location.hash='#routine'">
+                <i data-lucide="edit-3"></i>
+                <span>Manage Timetable</span>
+              </button>
+            </div>
+            <div id="dashboardTimelinePreview" class="timeline-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             2. DAILY ROUTINE VIEW
+             ========================================================================== -->
+        <section class="view-section" id="view-routine">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Daily Routine & Timetable</h2>
+              <p class="section-subtitle">Editable schedule with real-time tracking, categories, duration badges, and dynamic progress indicators.</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button class="btn-secondary" id="routineFilterActiveOnly">
+                <i data-lucide="filter"></i>
+                <span id="filterRoutineLabel">Show All</span>
+              </button>
+              <button class="btn-primary" id="addRoutineActivityBtn">
+                <i data-lucide="plus"></i>
+                <span>Add Activity</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <i data-lucide="check-circle-2" style="color: var(--primary); width: 20px; height: 20px;"></i>
+                <span style="font-weight: 700; font-size: 0.95rem;">Daily Routine Progress:</span>
+                <span id="routineSectionProgressText" style="font-weight: 800; color: var(--primary);">0 / 9 Activities Done (0%)</span>
+              </div>
+              <div style="width: 220px; max-width: 100%;">
+                <div class="progress-bar-container" style="height: 10px; margin-bottom: 0;">
+                  <div class="progress-bar-fill" id="routineSectionProgressBar" style="width: 0%; background: linear-gradient(90deg, var(--primary), var(--secondary));"></div>
+                </div>
+              </div>
+            </div>
+            <div id="fullTimelineContainer" class="timeline-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             3. WEEKLY PLANNER VIEW
+             ========================================================================== -->
+        <section class="view-section" id="view-weekly">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Weekly Planner</h2>
+              <p class="section-subtitle">Monday–Friday college & work schedule, with Saturday & Sunday as relaxing holidays.</p>
+            </div>
+            <div class="week-actions">
+              <span class="tag-badge" style="background: var(--success-light); color: var(--success);">Sat & Sun: Holiday Mode</span>
+            </div>
+          </div>
+
+          <!-- Day Tabs -->
+          <div class="week-tabs" id="weekTabsContainer">
+            <button class="week-tab-btn" data-day="1">
+              <span class="tab-day">Mon</span>
+              <span class="tab-name">Monday</span>
+            </button>
+            <button class="week-tab-btn" data-day="2">
+              <span class="tab-day">Tue</span>
+              <span class="tab-name">Tuesday</span>
+            </button>
+            <button class="week-tab-btn" data-day="3">
+              <span class="tab-day">Wed</span>
+              <span class="tab-name">Wednesday</span>
+            </button>
+            <button class="week-tab-btn" data-day="4">
+              <span class="tab-day">Thu</span>
+              <span class="tab-name">Thursday</span>
+            </button>
+            <button class="week-tab-btn" data-day="5">
+              <span class="tab-day">Fri</span>
+              <span class="tab-name">Friday</span>
+            </button>
+            <button class="week-tab-btn weekend" data-day="6">
+              <span class="tab-day">Sat</span>
+              <span class="tab-name">Saturday ☕</span>
+            </button>
+            <button class="week-tab-btn weekend" data-day="0">
+              <span class="tab-day">Sun</span>
+              <span class="tab-name">Sunday 🌴</span>
+            </button>
+          </div>
+
+          <!-- Selected Day Content -->
+          <div class="card" id="weeklyDayContentCard">
+            <div class="card-header">
+              <span class="card-title" id="weeklySelectedDayTitle">Schedule for Monday</span>
+              <button class="btn-primary btn-sm" id="addWeeklyActivityBtn">
+                <i data-lucide="plus"></i>
+                <span>Add Task for this Day</span>
+              </button>
+            </div>
+
+            <!-- Weekend Holiday Message Box inside Weekly View -->
+            <div class="holiday-banner" id="weeklyHolidayBanner" style="display: none;">
+              <div class="holiday-icon-box">
+                <i data-lucide="sun"></i>
+              </div>
+              <div class="holiday-content">
+                <h3>Weekend Holiday Mode</h3>
+                <p>No mandatory college classes scheduled. You can add optional personal activities, project work, or enjoy leisure time.</p>
+              </div>
+            </div>
+
+            <div id="weeklyDayScheduleList" class="timeline-container">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             4. TASK MANAGER VIEW
+             ========================================================================== -->
+        <section class="view-section" id="view-tasks">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Task Manager</h2>
+              <p class="section-subtitle">Organize and conquer your college, coding, AI/ML, and personal to-dos.</p>
+            </div>
+            <button class="btn-primary" id="openAddTaskModalBtn">
+              <i data-lucide="plus"></i>
+              <span>Add New Task</span>
+            </button>
+          </div>
+
+          <!-- Filter & Search Controls -->
+          <div class="task-controls">
+            <div class="search-wrap">
+              <i data-lucide="search"></i>
+              <input type="text" id="taskSearchInput" class="task-search-input" placeholder="Search tasks by title or note...">
+            </div>
+
+            <div class="task-filter-group">
+              <button class="filter-chip active" data-filter="all">All</button>
+              <button class="filter-chip" data-filter="today">Today</button>
+              <button class="filter-chip" data-filter="pending">Pending</button>
+              <button class="filter-chip" data-filter="completed">Completed</button>
+              <button class="filter-chip" data-filter="overdue">Overdue</button>
+
+              <select id="taskCategoryFilter" class="select-filter">
+                <option value="all">All Categories</option>
+                <option value="College">College</option>
+                <option value="Internship">Internship</option>
+                <option value="Online Learning">Online Learning (NxtWave)</option>
+                <option value="Study & Skills">Study & Skills</option>
+                <option value="Projects & Content">Projects & Content</option>
+                <option value="Python">Python</option>
+                <option value="SQL">SQL</option>
+                <option value="AI/ML">AI/ML</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Personal">Personal</option>
+              </select>
+
+              <select id="taskPriorityFilter" class="select-filter">
+                <option value="all">All Priorities</option>
+                <option value="High">High Priority</option>
+                <option value="Medium">Medium Priority</option>
+                <option value="Low">Low Priority</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Tasks Grid -->
+          <div class="tasks-grid" id="tasksListGrid">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             5. STUDY TRACKER VIEW
+             ========================================================================== -->
+        <section class="view-section" id="view-study">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Python & AI/ML Study Tracker</h2>
+              <p class="section-subtitle">Focus timer, subject-wise learning logs, and study goal management.</p>
+            </div>
+            <button class="btn-secondary" id="manageSubjectsBtn">
+              <i data-lucide="sliders"></i>
+              <span>Manage Subjects</span>
+            </button>
+          </div>
+
+          <div class="study-tracker-layout">
+            <!-- Study Timer Card -->
+            <div class="timer-container">
+              <span class="activity-category-pill" id="timerSubjectBadge">Focus Session</span>
+              
+              <div class="timer-display" id="studyTimerDisplay">00:00:00</div>
+
+              <div class="form-group" style="text-align: left; max-width: 320px; margin: 0 auto 1rem;">
+                <label class="form-label">Subject</label>
+                <select id="timerSubjectSelect" class="form-select">
+                  <!-- Populated by JS -->
+                </select>
+              </div>
+
+              <div class="form-group" style="text-align: left; max-width: 320px; margin: 0 auto 1rem;">
+                <label class="form-label">Learning Goal / Topic</label>
+                <input type="text" id="timerGoalInput" class="form-input" placeholder="e.g. Master Pandas GroupBy & Merge">
+              </div>
+
+              <div class="timer-controls">
+                <button class="timer-btn-reset" id="resetTimerBtn" title="Reset Timer">
+                  <i data-lucide="rotate-ccw"></i>
+                </button>
+                <button class="timer-btn-main" id="startStopTimerBtn" title="Start Study Session">
+                  <i data-lucide="play" id="timerActionIcon"></i>
+                </button>
+                <button class="timer-btn-reset" id="logSessionBtn" title="Complete & Log Session" style="color: var(--success);">
+                  <i data-lucide="check"></i>
+                </button>
+              </div>
+              <p style="font-size: 0.76rem; color: var(--text-muted); margin-top: 1rem;">
+                Timer state persists even if you refresh or switch tabs.
+              </p>
+            </div>
+
+            <!-- Study Stats & History -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">
+                  <i data-lucide="history" style="color: var(--secondary);"></i>
+                  Recent Study Sessions
+                </span>
+                <span class="tag-badge" id="todayStudyTotalHours">Today: 0.0 hrs</span>
+              </div>
+
+              <div id="studySessionsHistoryList" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 420px; overflow-y: auto;">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Study Subjects Overview -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <i data-lucide="book-open" style="color: var(--primary);"></i>
+                Curriculum Subjects
+              </span>
+              <button class="btn-primary btn-sm" id="addNewSubjectBtn">
+                <i data-lucide="plus"></i>
+                <span>Add Custom Subject</span>
+              </button>
+            </div>
+            <div class="study-subjects-list" id="curriculumSubjectsList">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             6. WEB DEVELOPMENT & PROJECT TRACKER
+             ========================================================================== -->
+        <section class="view-section" id="view-projects">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Web Development & Projects</h2>
+              <p class="section-subtitle">Track your frontend, full-stack, and portfolio builds with subtasks and deadlines.</p>
+            </div>
+            <button class="btn-primary" id="openAddProjectModalBtn">
+              <i data-lucide="plus"></i>
+              <span>Add New Project</span>
+            </button>
+          </div>
+
+          <div class="projects-grid" id="projectsListGrid">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             7. AI/ML CAREER ROADMAP
+             ========================================================================== -->
+        <section class="view-section" id="view-roadmap">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>AI/ML Career Roadmap</h2>
+              <p class="section-subtitle">10-stage customizable curriculum to guide your journey from student to AI/ML Engineer.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span class="tag-badge" id="roadmapOverallProgress">Roadmap Progress: 0%</span>
+            </div>
+          </div>
+
+          <div class="roadmap-container" id="roadmapStagesContainer">
+            <!-- Rendered by JS (10 Stages with checklists, notes, and status) -->
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             8. CALENDAR & REMINDERS VIEW
+             ========================================================================== -->
+        <section class="view-section" id="view-calendar">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Calendar & Reminders</h2>
+              <p class="section-subtitle">View routine schedules, tasks, and configure reminder notifications.</p>
+            </div>
+            <button class="btn-primary" id="requestNotifPermBtn">
+              <i data-lucide="bell-ring"></i>
+              <span id="notifPermBtnText">Enable Browser Alerts</span>
+            </button>
+          </div>
+
+          <div class="calendar-layout">
+            <!-- Calendar Card -->
+            <div class="card">
+              <div class="calendar-header-nav">
+                <span class="calendar-month-title" id="calendarMonthYearDisplay">October 2026</span>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button class="btn-icon" id="prevMonthBtn"><i data-lucide="chevron-left"></i></button>
+                  <button class="btn-secondary btn-sm" id="todayMonthBtn">Today</button>
+                  <button class="btn-icon" id="nextMonthBtn"><i data-lucide="chevron-right"></i></button>
+                </div>
+              </div>
+
+              <div class="calendar-grid" id="calendarGridDays">
+                <!-- Day headers and dates injected by JS -->
+              </div>
+            </div>
+
+            <!-- Selected Day Details & Reminders -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title" id="calendarSelectedDayTitle">
+                  <i data-lucide="calendar-check"></i>
+                  Events on Selected Date
+                </span>
+              </div>
+              <div id="calendarSelectedDayEvents" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 380px; overflow-y: auto;">
+                <!-- Populated via JS -->
+              </div>
+
+              <div class="card-header" style="margin-top: 1.5rem;">
+                <span class="card-title">
+                  <i data-lucide="clock"></i>
+                  Active Reminders
+                </span>
+              </div>
+              <div id="calendarRemindersList" class="reminders-list">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             9. PRODUCTIVITY ANALYTICS VIEW
+             ========================================================================== -->
+        <section class="view-section" id="view-analytics">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Productivity Analytics</h2>
+              <p class="section-subtitle">Real-time statistics calculated from your actual tasks and study sessions.</p>
+            </div>
+            <span class="tag-badge" id="productivityStreakBadge">🔥 Current Streak: 1 Day</span>
+          </div>
+
+          <!-- Charts Grid -->
+          <div class="analytics-grid">
+            <div class="card chart-card">
+              <div class="card-header">
+                <span class="card-title">Weekly Tasks & Study Hours</span>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="weeklyProductivityChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card chart-card">
+              <div class="card-header">
+                <span class="card-title">Study Time Distribution by Subject</span>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="studyDistributionChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card chart-card">
+              <div class="card-header">
+                <span class="card-title">Tasks by Category</span>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="tasksCategoryChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card chart-card">
+              <div class="card-header">
+                <span class="card-title">AI/ML Roadmap Progress per Stage</span>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="roadmapProgressChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================================
+             10. SETTINGS VIEW
+             ========================================================================== -->
+        <section class="view-section" id="view-settings">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Preferences & Data Settings</h2>
+              <p class="section-subtitle">Personalize your timetable, clock format, notifications, and export/import data.</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Profile Preferences -->
+            <div class="settings-card">
+              <div class="card-header">
+                <span class="card-title">Profile Information</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="settingNameInput" class="form-input" value="Akash V">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Role & Academic Year</label>
+                <input type="text" id="settingRoleInput" class="form-input" value="B.Tech CSE (AI & ML) • Web Dev Intern">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Target Daily Study Hours</label>
+                <input type="number" id="settingStudyGoalInput" class="form-input" min="1" max="16" value="4">
+              </div>
+              <button class="btn-primary btn-sm" id="saveProfileSettingsBtn">Save Profile</button>
+            </div>
+
+            <!-- Schedule & Preferences -->
+            <div class="settings-card">
+              <div class="card-header">
+                <span class="card-title">Schedule & Clock</span>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-title">12-Hour Clock Format</span>
+                  <span class="setting-desc">Display time as 12h (AM/PM) instead of 24h</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="settingClock12h" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-title">Weekend Holiday Mode</span>
+                  <span class="setting-desc">Keep Saturday and Sunday as holidays by default</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="settingWeekendHoliday" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-title">Sound Chimes & Confetti</span>
+                  <span class="setting-desc">Play celebratory audio effects on task completion</span>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="settingSoundEffects" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-info">
+                  <span class="setting-title">Default Timezone</span>
+                  <span class="setting-desc">Indian Standard Time (Asia/Kolkata)</span>
+                </div>
+                <span class="tag-badge">Asia/Kolkata</span>
+              </div>
+            </div>
+
+            <!-- Data Backup & Reset -->
+            <div class="settings-card">
+              <div class="card-header">
+                <span class="card-title">Data Management (LocalStorage)</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                All your timetable activities, tasks, study logs, projects, and roadmap states are safely stored in your browser's LocalStorage.
+              </p>
+
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <button class="btn-secondary" id="exportDataBtn">
+                  <i data-lucide="download"></i>
+                  <span>Export Backup as JSON</span>
+                </button>
+
+                <label class="btn-secondary" style="cursor: pointer;">
+                  <i data-lucide="upload"></i>
+                  <span>Import Data from JSON</span>
+                  <input type="file" id="importJsonFileInput" accept=".json" style="display: none;">
+                </label>
+
+                <button class="btn-secondary" id="restoreDefaultsBtn">
+                  <i data-lucide="refresh-cw"></i>
+                  <span>Restore Starter Timetable</span>
+                </button>
+
+                <button class="btn-danger" id="resetAllDataBtn">
+                  <i data-lucide="trash-2"></i>
+                  <span>Reset All Application Data</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       Mobile Bottom Navigation
+       ========================================================================== -->
+  <nav class="mobile-bottom-nav">
+    <a href="#dashboard" class="mobile-nav-link active" data-view="dashboard">
+      <i data-lucide="layout-dashboard"></i>
+      <span>Home</span>
+    </a>
+    <a href="#routine" class="mobile-nav-link" data-view="routine">
+      <i data-lucide="calendar-check"></i>
+      <span>Routine</span>
+    </a>
+    <a href="#tasks" class="mobile-nav-link" data-view="tasks">
+      <i data-lucide="check-square"></i>
+      <span>Tasks</span>
+    </a>
+    <a href="#study" class="mobile-nav-link" data-view="study">
+      <i data-lucide="timer"></i>
+      <span>Study</span>
+    </a>
+    <a href="#settings" class="mobile-nav-link" data-view="settings">
+      <i data-lucide="settings"></i>
+      <span>Settings</span>
+    </a>
+  </nav>
+
+  <!-- ==========================================================================
+       MODALS
+       ========================================================================== -->
+
+  <!-- Modal: Add / Edit Task -->
+  <div class="modal-overlay" id="taskModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="taskModalTitle">Add New Task</h3>
+        <button class="modal-close-btn" data-close-modal="taskModal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="taskForm">
+        <div class="modal-body">
+          <input type="hidden" id="taskIdInput">
+          
+          <div class="form-group">
+            <label class="form-label" for="taskTitleInput">Task Title *</label>
+            <input type="text" id="taskTitleInput" class="form-input" placeholder="e.g. Solve 3 LeetCode Binary Search problems" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="taskCategorySelect">Category</label>
+            <select id="taskCategorySelect" class="form-select">
+              <option value="College">College</option>
+              <option value="Internship">Internship</option>
+              <option value="Online Learning">Online Learning (NxtWave)</option>
+              <option value="Study & Skills">Study & Skills</option>
+              <option value="Projects & Content">Projects & Content</option>
+              <option value="Python">Python</option>
+              <option value="SQL">SQL</option>
+              <option value="AI/ML">AI/ML</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Personal">Personal</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="taskPrioritySelect">Priority</label>
+              <select id="taskPrioritySelect" class="form-select">
+                <option value="High">High</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="taskDueDateInput">Due Date</label>
+              <input type="date" id="taskDueDateInput" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="taskDescriptionInput">Description / Notes</label>
+            <textarea id="taskDescriptionInput" class="form-textarea" placeholder="Additional details or links..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-close-modal="taskModal">Cancel</button>
+          <button type="submit" class="btn-primary" id="saveTaskSubmitBtn">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Timetable Activity -->
+  <div class="modal-overlay" id="activityModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="activityModalTitle">Add Routine Activity</h3>
+        <button class="modal-close-btn" data-close-modal="activityModal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="activityForm">
+        <div class="modal-body">
+          <input type="hidden" id="activityIdInput">
+          
+          <div class="form-group">
+            <label class="form-label" for="activityNameInput">Activity Name *</label>
+            <input type="text" id="activityNameInput" class="form-input" placeholder="e.g. Python & Problem Solving Practice" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="activityStartInput">Start Time *</label>
+              <input type="time" id="activityStartInput" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="activityEndInput">End Time *</label>
+              <input type="time" id="activityEndInput" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="activityCategorySelect">Category</label>
+            <select id="activityCategorySelect" class="form-select">
+              <option value="Study & Skills">Study & Skills</option>
+              <option value="Health & Fitness">Health & Fitness</option>
+              <option value="Morning Routine">Morning Routine</option>
+              <option value="College">College</option>
+              <option value="Internship">Internship</option>
+              <option value="Personal Time">Personal Time</option>
+              <option value="Online Learning">Online Learning (NxtWave)</option>
+              <option value="Projects & Content">Projects & Content</option>
+              <option value="Sleep">Sleep & Recovery</option>
+              <option value="Python learning">Python learning (Legacy)</option>
+              <option value="AI/ML learning">AI/ML learning (Legacy)</option>
+              <option value="Web development projects">Web development projects (Legacy)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="activityDescInput">Description / Purpose</label>
+            <textarea id="activityDescInput" class="form-textarea" placeholder="e.g. Solve arrays and hash map problems on LeetCode"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="activityReminderToggle">
+              <span class="checkbox-mark"></span>
+              <span>Enable reminder alert for this activity</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-close-modal="activityModal">Cancel</button>
+          <button type="submit" class="btn-primary" id="saveActivitySubmitBtn">Save Activity</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Project -->
+  <div class="modal-overlay" id="projectModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="projectModalTitle">Add Web Project</h3>
+        <button class="modal-close-btn" data-close-modal="projectModal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="projectForm">
+        <div class="modal-body">
+          <input type="hidden" id="projectIdInput">
+          
+          <div class="form-group">
+            <label class="form-label" for="projectNameInput">Project Name *</label>
+            <input type="text" id="projectNameInput" class="form-input" placeholder="e.g. Personal Portfolio & Resume" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="projectCategorySelect">Category</label>
+              <select id="projectCategorySelect" class="form-select">
+                <option value="Frontend Development">Frontend Development</option>
+                <option value="React.js">React.js</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="PHP and MySQL">PHP and MySQL</option>
+                <option value="WordPress">WordPress</option>
+                <option value="SEO">SEO</option>
+                <option value="Git and GitHub">Git and GitHub</option>
+                <option value="Personal Portfolio">Personal Portfolio</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="projectStatusSelect">Status</label>
+              <select id="projectStatusSelect" class="form-select">
+                <option value="Planning">Planning</option>
+                <option value="In Progress" selected>In Progress</option>
+                <option value="Review">Review</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="projectTechInput">Technologies (comma separated)</label>
+            <input type="text" id="projectTechInput" class="form-input" placeholder="e.g. HTML5, CSS3, JavaScript, Git">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="projectStartDate">Start Date</label>
+              <input type="date" id="projectStartDate" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="projectTargetDate">Target Date</label>
+              <input type="date" id="projectTargetDate" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="projectDescInput">Description & Goals</label>
+            <textarea id="projectDescInput" class="form-textarea" placeholder="Key objectives and features of this project..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Subtasks (one per line)</label>
+            <textarea id="projectSubtasksInput" class="form-textarea" placeholder="Design responsive layout&#10;Implement dark mode&#10;Connect contact form"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-close-modal="projectModal">Cancel</button>
+          <button type="submit" class="btn-primary">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Subject -->
+  <div class="modal-overlay" id="subjectModal">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Study Subject</h3>
+        <button class="modal-close-btn" data-close-modal="subjectModal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="subjectForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="newSubjectNameInput">Subject Name *</label>
+            <input type="text" id="newSubjectNameInput" class="form-input" placeholder="e.g. Computer Networks" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-close-modal="subjectModal">Cancel</button>
+          <button type="submit" class="btn-primary">Add Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Confirmation Dialog -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="confirmModalTitle">Are you sure?</h3>
+        <button class="modal-close-btn" data-close-modal="confirmModal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmModalMessage" style="color: var(--text-secondary); font-size: 0.95rem;">
+          This action cannot be undone.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" data-close-modal="confirmModal">Cancel</button>
+        <button type="button" class="btn-danger" id="confirmModalActionBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Alerts -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Core JavaScript Application -->
+  <script src="script.js"></script>
+</body>
+</html>
